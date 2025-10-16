@@ -1456,7 +1456,7 @@
                 <i class="fas fa-graduation-cap"></i>
                 <span>ReseñaEscolar</span>
             </a>
-            
+
             <div class="fb-search" id="searchSection">
                 <input type="text" class="fb-search-input" id="searchInput" placeholder="Buscar colegio...">
                 <div class="fb-search-dropdown" id="searchDropdown"></div>
@@ -1654,7 +1654,7 @@
                     <i class="fas fa-user-plus"></i> Unirse
                 </button>
             `;
-            
+
             document.getElementById('mainContainer').innerHTML = `
                 <div style="grid-column: 1/-1;">
                     <div class="fb-login-prompt">
@@ -1673,9 +1673,9 @@
 
         function showMainApp() {
             document.getElementById('searchSection').style.display = 'block';
-            
+
             const userInfoClass = isAdmin() ? 'fb-user-info admin' : 'fb-user-info';
-            
+
             document.getElementById('userMenu').innerHTML = `
                 ${isAdmin() ? `
                     <button class="fb-admin-btn" onclick="showAdminPanel()">
@@ -1690,7 +1690,7 @@
                     <i class="fas fa-sign-out-alt"></i> Salir
                 </button>
             `;
-            
+
             renderMainContent();
         }
 
@@ -1707,7 +1707,7 @@
         function switchTab(tab) {
             document.querySelectorAll('.fb-tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.fb-tab-content').forEach(content => content.classList.remove('active'));
-            
+
             if (tab === 'login') {
                 document.querySelector('.fb-tab-btn:first-child').classList.add('active');
                 document.getElementById('loginTab').classList.add('active');
@@ -1741,7 +1741,7 @@
                 const password = document.getElementById('loginPassword').value;
 
                 const user = users.find(u => u.email === email && u.password === password);
-                
+
                 if (user) {
                     currentUser = user;
                     localStorage.setItem('currentUser', JSON.stringify(user));
@@ -1782,14 +1782,14 @@
 
                 users.push(newUser);
                 localStorage.setItem('users', JSON.stringify(users));
-                
+
                 currentUser = newUser;
                 localStorage.setItem('currentUser', JSON.stringify(newUser));
-                
+
                 closeAuthModal();
                 showMainApp();
                 showAlert('¡Cuenta creada exitosamente!', 'success');
-                
+
                 this.reset();
             });
 
@@ -1798,7 +1798,7 @@
             document.getElementById('searchInput').addEventListener('input', function(e) {
                 clearTimeout(searchTimeout);
                 const searchTerm = e.target.value.trim();
-                
+
                 searchTimeout = setTimeout(() => {
                     handleSearch(searchTerm);
                 }, 300);
@@ -1903,7 +1903,7 @@
         function switchAdminTab(tab) {
             document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.admin-tab-content').forEach(content => content.classList.remove('active'));
-            
+
             if (tab === 'schools') {
                 document.querySelector('.admin-tab-btn:first-child').classList.add('active');
                 document.getElementById('adminSchoolsTab').classList.add('active');
@@ -1918,7 +1918,7 @@
             if (!tbody) return;
 
             const schoolsArray = Object.entries(schools);
-            
+
             if (schoolsArray.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px; color: var(--text-secondary);">No hay colegios registrados</td></tr>';
                 return;
@@ -1992,7 +1992,7 @@
         function updateSchool() {
             const schoolKey = document.getElementById('editSchoolKey').value;
             const school = schools[schoolKey];
-            
+
             if (!school) {
                 showAlert('Colegio no encontrado', 'error');
                 return;
@@ -2005,7 +2005,7 @@
             school.email = document.getElementById('editSchoolEmail').value;
 
             localStorage.setItem('schools', JSON.stringify(schools));
-            
+
             closeEditSchoolModal();
             showAlert('Colegio actualizado correctamente', 'success');
             renderSchoolsTable();
@@ -2018,7 +2018,7 @@
 
             delete schools[schoolKey];
             localStorage.setItem('schools', JSON.stringify(schools));
-            
+
             showAlert('Colegio eliminado correctamente', 'success');
             renderSchoolsTable();
         }
@@ -2045,7 +2045,7 @@
         function updateUser() {
             const userId = parseInt(document.getElementById('editUserId').value);
             const user = users.find(u => u.id === userId);
-            
+
             if (!user) {
                 showAlert('Usuario no encontrado', 'error');
                 return;
@@ -2056,7 +2056,7 @@
             user.userType = document.getElementById('editUserType').value;
 
             localStorage.setItem('users', JSON.stringify(users));
-            
+
             closeEditUserModal();
             showAlert('Usuario actualizado correctamente', 'success');
             renderUsersTable();
@@ -2069,7 +2069,7 @@
 
             users = users.filter(u => u.id !== userId);
             localStorage.setItem('users', JSON.stringify(users));
-            
+
             showAlert('Usuario eliminado correctamente', 'success');
             renderUsersTable();
         }
@@ -2077,14 +2077,14 @@
         // ==================== BÚSQUEDA ====================
         function handleSearch(searchTerm) {
             const dropdown = document.getElementById('searchDropdown');
-            
+
             if (searchTerm.length < 2) {
                 dropdown.classList.remove('show');
                 return;
             }
 
-            const results = Object.values(schools).filter(school => 
-                school.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+            const results = Object.values(schools).filter(school =>
+                school.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 school.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 school.address.toLowerCase().includes(searchTerm.toLowerCase())
             );
@@ -2116,20 +2116,20 @@
 
         function selectSchoolFromSearch(school) {
             selectedSchool = school;
-            
+
             document.getElementById('searchDropdown').classList.remove('show');
             document.getElementById('searchInput').value = '';
-            
+
             document.getElementById('schoolName').value = school.name;
             document.getElementById('location').value = school.location;
             document.getElementById('schoolName').readOnly = true;
             document.getElementById('location').readOnly = true;
-            
+
             const infoBox = document.querySelector('.fb-school-info-box');
             if (infoBox) {
                 infoBox.classList.remove('show');
             }
-            
+
             const badge = document.querySelector('.fb-badge');
             if (badge) {
                 badge.classList.add('show');
@@ -2140,9 +2140,9 @@
                     </button>
                 `;
             }
-            
+
             document.querySelector('.fb-create-post').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
+
             showAlert(`Colegio seleccionado: ${school.name}`, 'success');
         }
 
@@ -2152,12 +2152,12 @@
             document.getElementById('location').value = '';
             document.getElementById('schoolName').readOnly = false;
             document.getElementById('location').readOnly = false;
-            
+
             const badge = document.querySelector('.fb-badge');
             if (badge) {
                 badge.classList.remove('show');
             }
-            
+
             checkIfNewSchool();
         }
 
@@ -2165,7 +2165,7 @@
             const schoolName = document.getElementById('schoolName').value;
             const schoolKey = schoolName.toLowerCase().replace(/\s+/g, '-');
             const schoolInfoBox = document.querySelector('.fb-school-info-box');
-            
+
             if (schoolName && !schools[schoolKey] && !selectedSchool) {
                 if (schoolInfoBox) schoolInfoBox.classList.add('show');
             } else {
@@ -2188,9 +2188,9 @@
                 <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
                 <span>${message}</span>
             `;
-            
+
             document.body.appendChild(alertDiv);
-            
+
             setTimeout(() => alertDiv.remove(), 3000);
         }
 
@@ -2201,7 +2201,7 @@
                     <div class="fb-create-header">
                         <h2><i class="fas fa-edit"></i> Crear Reseña</h2>
                     </div>
-                    
+
                     <div class="fb-create-body">
                         <div class="fb-badge"></div>
 
@@ -2219,7 +2219,7 @@
 
                             <div class="fb-school-info-box">
                                 <h4><i class="fas fa-school"></i> Colegio Nuevo - Completa la información</h4>
-                                
+
                                 <div class="fb-form-group">
                                     <label class="fb-label">Dirección Completa</label>
                                     <input type="text" class="fb-input" id="schoolAddress" placeholder="Calle, número, colonia">
@@ -2273,7 +2273,7 @@
                             </div>
                         </form>
                     </div>
-                    
+
                     <div class="fb-create-footer">
                         <button type="submit" form="reviewForm" class="fb-btn-primary">
                             <i class="fas fa-paper-plane"></i> Publicar
@@ -2397,7 +2397,7 @@
 
                 renderReviews();
                 showAlert('¡Reseña publicada exitosamente!', 'success');
-                
+
                 setTimeout(() => {
                     const firstPost = document.querySelector('.fb-post');
                     if (firstPost) {
@@ -2460,7 +2460,7 @@
 
                     review.replies.push(reply);
                     localStorage.setItem('schools', JSON.stringify(schools));
-                    
+
                     renderReviews();
                     showAlert('Comentario agregado', 'success');
                 }
@@ -2478,11 +2478,11 @@
         function toggleReplies(reviewId) {
             const repliesSection = document.getElementById(`replies-${reviewId}`);
             const btn = document.getElementById(`toggleBtn-${reviewId}`);
-            
+
             if (repliesSection) {
                 const isHidden = repliesSection.style.display === 'none';
                 repliesSection.style.display = isHidden ? 'block' : 'none';
-                
+
                 const review = findReviewById(reviewId);
                 if (review && review.replies) {
                     btn.innerHTML = isHidden
@@ -2519,7 +2519,7 @@
 
             Object.values(schools).forEach(school => {
                 const filteredReviews = filterReviews(school.reviews);
-                
+
                 if (filteredReviews.length === 0) return;
 
                 const avgRating = (school.reviews.reduce((sum, r) => sum + r.rating, 0) / school.reviews.length).toFixed(1);
@@ -2625,8 +2625,8 @@
                                 <div class="fb-comment-header">
                                     <span class="fb-comment-author">${review.userName}</span>
                                     <span class="fb-comment-badge ${isAnonymous ? 'anonymous' : review.userType}">
-                                        ${isAnonymous ? '<i class="fas fa-user-secret"></i> Anónimo' : 
-                                          review.userType === 'parent' ? '<i class="fas fa-users"></i> Padre/Madre' : 
+                                        ${isAnonymous ? '<i class="fas fa-user-secret"></i> Anónimo' :
+                                          review.userType === 'parent' ? '<i class="fas fa-users"></i> Padre/Madre' :
                                           '<i class="fas fa-chalkboard-teacher"></i> Profesor'}
                                     </span>
                                 </div>
@@ -2740,8 +2740,8 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: true,
-                    plugins: { 
-                        legend: { 
+                    plugins: {
+                        legend: {
                             position: 'bottom',
                             labels: {
                                 padding: 15,
@@ -2796,7 +2796,7 @@
                             }
                         }
                     }
-                    
+
                     localStorage.setItem('schools', JSON.stringify(schools));
                     renderReviews();
                 }
@@ -2856,9 +2856,9 @@
                                 replies: []
                             }
                         ],
-                        stats: { 
-                            recommendStudy: 2, 
-                            recommendWork: 1, 
+                        stats: {
+                            recommendStudy: 2,
+                            recommendWork: 1,
                             totalReviews: 2
                         }
                     }
